@@ -5,9 +5,14 @@ const completionArgs = {
   query: "Who is Sherlock Holmes?",
   nPredict: -1,
   temperature: 0.8,
-  rag: false,  
+  rag: true,
+  ragRelevanceThreshold: 0.65,
+  ragK: 5,
+  ragCollectionId: 1, // Set this to a valid collection ID if needed
+  ragEndpoint: 'http://localhost:8081/collections/query' // optional; use to override the default
 };
 
+//const url = `http://localhost:8080/test`;
 const url = `http://localhost:8080/completion`;
 
   const options = {
@@ -19,7 +24,7 @@ const url = `http://localhost:8080/completion`;
     body: JSON.stringify(completionArgs)
   };
 
-const parse = (data) => {
+const parse = (data) => {  
   const match = data.match(/^data:(.+)\n/); // Match "data: " followed by content and a newline
   return match ? JSON.parse(match[1]).text : ''; // Get the first capture group
 }
